@@ -1,0 +1,14 @@
+{
+  "name": "jeu-de-lettres-multijoueur",
+  "version": "1.0.0",
+  "description": "Un jeu de lettres multijoueur dans le style du Scrabble",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0",
+    "uuid": "^8.3.2"
+  }
+}

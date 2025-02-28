@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeu de Lettres Multijoueur</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <input type="text" id="username" placeholder="Pseudo" />
+      <button id="create-game">Créer une partie</button>
+      <input type="text" id="game-id" placeholder="ID de la partie" />
+      <button id="join-game">Rejoindre une partie</button>
+      <button id="start-game" style="display: none">Démarrer la partie</button>
+    </div>
+    <div id="game-info">
+      <p id="game-id-display"></p>
+      <p id="players-list"></p>
+    </div>
+    <div id="player-letters"></div>
+    <button id="mixmo-button" style="display: none">Mixmo !</button>
+    <div id="direction-controls">
+      <label>
+        <input type="radio" name="direction" value="horizontal" checked />
+        Horizontal
+      </label>
+      <label>
+        <input type="radio" name="direction" value="vertical" /> Vertical
+      </label>
+    </div>
+    <div id="game-board"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

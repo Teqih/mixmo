@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#controls {
+    margin-bottom: 20px;
+}
+
+#controls button, #controls input {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#game-info {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+#players-list {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+#player-letters {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+#mixmo-button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #ffcc00;
+    border: none;
+    cursor: pointer;
+}
+
+#direction-controls {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#game-board {
+    width: 600px;
+    height: 600px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+}
+
+.cell {
+    border: 1px solid #ccc;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cell.selected {
+    background-color: #ffcc00;
+}
+
+.cell.filled {
+    background-color: #d3d3d3;
+}

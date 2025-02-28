@@ -18,18 +18,21 @@
       <p id="game-id-display"></p>
       <p id="players-list"></p>
     </div>
-    <div id="player-letters"></div>
-    <button id="mixmo-button" style="display: none">Mixmo !</button>
-    <div id="direction-controls">
-      <label>
-        <input type="radio" name="direction" value="horizontal" checked />
-        Horizontal
-      </label>
-      <label>
-        <input type="radio" name="direction" value="vertical" /> Vertical
-      </label>
-    </div>
     <div id="game-board"></div>
+    <div id="bottom-controls">
+      <div id="player-letters" class="hidden"></div>
+      <button id="mixmo-button" style="display: none">Mixmo !</button>
+      <div id="direction-controls" class="hidden">
+        <label>
+          <input type="radio" name="direction" value="horizontal" checked />
+          Horizontal
+        </label>
+        <label>
+          <input type="radio" name="direction" value="vertical" /> Vertical
+        </label>
+      </div>
+    </div>
+    <button id="quit-game" style="display: none" class="quit-button">✖</button>
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
   </body>

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const joinGameButton = document.getElementById('join-game');
     const startGameButton = document.getElementById('start-game');
     const mixmoButton = document.getElementById('mixmo-button');
+    const quitGameButton = document.getElementById('quit-game');
     const usernameInput = document.getElementById('username');
     const gameIdInput = document.getElementById('game-id');
     const gameIdDisplay = document.getElementById('game-id-display');
@@ -45,6 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('mixmo', currentGameId);
     });
 
+    quitGameButton.addEventListener('click', () => {
+        location.reload();
+    });
+
     socket.on('gameCreated', (gameId) => {
         currentGameId = gameId;
         gameIdDisplay.textContent = `ID de la partie: ${gameId}`;
@@ -69,6 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('La partie a commencé !');
         startGameButton.style.display = 'none';
         mixmoButton.style.display = 'block';
+        quitGameButton.style.display = 'block';
+        document.getElementById('controls').classList.add('hidden');
+        document.getElementById('game-info').classList.add('hidden');
+        document.getElementById('direction-controls').classList.remove('hidden');
+        playerLetters.classList.remove('hidden');
         availableLetters = letters;
         playerLetters.textContent = `Vos lettres: ${letters.join(', ')}`;
     });
@@ -81,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     directionControls.forEach(control => {
         control.addEventListener('change', (event) => {
             direction = event.target.value;
+            if (selectedCell) {
+                updateDirectionArrow(selectedCell);
+            }
         });
     });
 
@@ -88,9 +101,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('cell')) {
             if (selectedCell) {
                 selectedCell.classList.remove('selected');
+                removeDirectionArrow(selectedCell);
             }
-            selectedCell = event.target;
-            selectedCell.classList.add('selected');
+            if (selectedCell === event.target) {
+                direction = direction === 'horizontal' ? 'vertical' : 'horizontal';
+                updateDirectionArrow(selectedCell);
+            } else {
+                selectedCell = event.target;
+                selectedCell.classList.add('selected');
+                updateDirectionArrow(selectedCell);
+            }
         }
     });
 
@@ -108,13 +128,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 availableLetters.splice(letterIndex, 1);
                 playerLetters.textContent = `Vos lettres: ${availableLetters.join(', ')}`;
                 if (direction === 'horizontal') {
-                    selectedCell = selectedCell.nextElementSibling;
+                    const nextCell = selectedCell.nextElementSibling;
+                    if (nextCell && nextCell.classList.contains('cell')) {
+                        selectedCell.classList.remove('selected');
+                        removeDirectionArrow(selectedCell);
+                        selectedCell = nextCell;
+                        selectedCell.classList.add('selected');
+                        updateDirectionArrow(selectedCell);
+                    }
                 } else {
                     const cellIndex = Array.from(gameBoard.children).indexOf(selectedCell);
-                    selectedCell = gameBoard.children[cellIndex + 15];
-                }
-                if (selectedCell && selectedCell.classList.contains('cell')) {
-                    selectedCell.classList.add('selected');
+                    const nextCell = gameBoard.children[cellIndex + 20];
+                    if (nextCell && nextCell.classList.contains('cell')) {
+                        selectedCell.classList.remove('selected');
+                        removeDirectionArrow(selectedCell);
+                        selectedCell = nextCell;
+                        selectedCell.classList.add('selected');
+                        updateDirectionArrow(selectedCell);
+                    }
                 }
             }
         } else if (selectedCell && event.key === 'Backspace') {
@@ -125,18 +156,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedCell.classList.remove('filled');
             }
             if (direction === 'horizontal') {
-                selectedCell = selectedCell.previousElementSibling;
+                const prevCell = selectedCell.previousElementSibling;
+                if (prevCell && prevCell.classList.contains('cell')) {
+                    selectedCell.classList.remove('selected');
+                    removeDirectionArrow(selectedCell);
+                    selectedCell = prevCell;
+                    selectedCell.classList.add('selected');
+                    updateDirectionArrow(selectedCell);
+                }
             } else {
                 const cellIndex = Array.from(gameBoard.children).indexOf(selectedCell);
-                selectedCell = gameBoard.children[cellIndex - 15];
-            }
-            if (selectedCell && selectedCell.classList.contains('cell')) {
-                selectedCell.classList.add('selected');
+                const prevCell = gameBoard.children[cellIndex - 20];
+                if (prevCell && prevCell.classList.contains('cell')) {
+                    selectedCell.classList.remove('selected');
+                    removeDirectionArrow(selectedCell);
+                    selectedCell = prevCell;
+                    selectedCell.classList.add('selected');
+                    updateDirectionArrow(selectedCell);
+                }
             }
         }
     });
 
-    for (let i = 0; i < 225; i++) {
+    const updateDirectionArrow = (cell) => {
+        removeDirectionArrow(cell);
+        if (!cell.textContent) {
+            const arrow = document.createElement('div');
+            arrow.classList.add('direction-arrow', direction);
+            cell.appendChild(arrow);
+        }
+    };
+
+    const removeDirectionArrow = (cell) => {
+        const arrow = cell.querySelector('.direction-arrow');
+        if (arrow) {
+            cell.removeChild(arrow);
+        }
+    };
+
+    for (let i = 0; i < 400; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         gameBoard.appendChild(cell);

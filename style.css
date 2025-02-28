@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -10,6 +10,12 @@ body {
 
 #controls {
     margin-bottom: 20px;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+#controls.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 #controls button, #controls input {
@@ -22,6 +28,12 @@ body {
     margin-bottom: 20px;
     font-size: 18px;
     color: #333;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+#game-info.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 #players-list {
@@ -30,14 +42,32 @@ body {
     color: #555;
 }
 
+#bottom-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 #player-letters {
-    margin-top: 20px;
     font-size: 24px;
     color: #333;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+#player-letters.hidden {
+    display: none;
 }
 
 #mixmo-button {
-    margin-top: 20px;
     padding: 10px;
     font-size: 18px;
     background-color: #ffcc00;
@@ -46,18 +76,23 @@ body {
 }
 
 #direction-controls {
-    margin-top: 20px;
     font-size: 18px;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+#direction-controls.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 #game-board {
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    height: 800px;
     background-color: #fff;
     border: 1px solid #ccc;
     display: grid;
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(15, 1fr);
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
 }
 
 .cell {
@@ -69,6 +104,7 @@ body {
     align-items: center;
     font-size: 24px;
     cursor: pointer;
+    position: relative;
 }
 
 .cell.selected {
@@ -76,5 +112,33 @@ body {
 }
 
 .cell.filled {
-    background-color: #d3d3d3;
+    background-color: #add8e6;
+}
+
+.cell.filled.selected {
+    background-color: #ffcc00;
+}
+
+.cell .direction-arrow {
+    position: absolute;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.cell .direction-arrow.horizontal::after {
+    content: '→';
+}
+
+.cell .direction-arrow.vertical::after {
+    content: '↓';
+}
+
+.quit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
 }
